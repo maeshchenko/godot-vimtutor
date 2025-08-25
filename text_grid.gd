@@ -36,7 +36,7 @@ func _load_file(path: String) -> void:
 # нужно чтобы точно знать размеры символов, чтобы дальше расчитать сетку
 func resolve_font_metrics() -> void:
 	font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
-	font_size = 28
+	font_size = 20
 
 	char_w = font.get_string_size("M", font_size).x
 	char_h = font.get_height(font_size)
