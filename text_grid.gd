@@ -7,8 +7,9 @@ var cursor_row: int = 0
 var cursor_col: int = 0
 var top_line: int = 0
 
-var font: Font
-var font_size: int = 0
+@export var font_size := 32
+var font: Font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
+
 var char_w: float = 0.0
 var char_h: float = 0.0
 var ascent: float = 0.0
@@ -16,7 +17,7 @@ var ascent: float = 0.0
 var lines: Array = []
 
 @export var fg_color: Color = Color(1, 1, 1, 1) # текст
-@export var bg_color: Color = Color(0, 0, 0, 1) # фон
+@export var bg_color: Color = Color(0, 0, 0, 0.8) # фон
 @export var status_bg: Color = Color( 0.10, 0.10, 0.10, 1) # фон статус-строки
 @export var cursor_bg: Color = Color( 0.85, 0.85, 0.20, 1) # фон ячейки курсора
 @export var cursor_fg: Color = Color(0, 0, 0, 1) # символ под курсором
@@ -35,8 +36,6 @@ func _load_file(path: String) -> void:
 	
 # нужно чтобы точно знать размеры символов, чтобы дальше расчитать сетку
 func resolve_font_metrics() -> void:
-	font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
-	font_size = 28
 
 	var size = font.get_char_size("W".unicode_at(0), font_size) # unicode_at переводит букву в unicode-число
 	char_w = size.x

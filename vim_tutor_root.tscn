@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgfbwmk6jewa6"]
+[gd_scene load_steps=3 format=3 uid="uid://cgfbwmk6jewa6"]
 
+[ext_resource type="Texture2D" uid="uid://bvxfabgeui2n1" path="res://assets/images/wallpaper.png" id="1_qx4gc"]
 [ext_resource type="Script" path="res://text_grid.gd" id="2_14u6n"]
 
 [node name="VimTutorRoot" type="Control"]
@@ -10,14 +11,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+texture = ExtResource("1_qx4gc")
+stretch_mode = 6
 
 [node name="TerminalCenter" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -47,3 +49,4 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("2_14u6n")
+font_size = 20
