@@ -36,12 +36,17 @@ func _load_file(path: String) -> void:
 # нужно чтобы точно знать размеры символов, чтобы дальше расчитать сетку
 func resolve_font_metrics() -> void:
 	font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
-	font_size = 20
+	font_size = 28
 
-	char_w = font.get_string_size("M", font_size).x
-	char_h = font.get_height(font_size)
+	var size = font.get_char_size("W".unicode_at(0), font_size) # unicode_at переводит букву в unicode-число
+	char_w = size.x
+	char_h = size.y
 	ascent = font.get_ascent(font_size)
 	print("font_size: ", font_size)
+	print("char_h: ", char_h)
+	print("char_w: ", char_w)
+	print("ascent: ", ascent)
+	print("size: ", size)
 
 # нужно чтобы окно терминала меняло размер ровно под символьную сетку
 func recalc_frame_size() -> void:
@@ -83,23 +88,24 @@ func _draw() -> void:
 	var visible_rows := ROWS - 1 # последняя строка - будет статус
 	
 	# рисуем видимые текстовые строки 
-	for r in visible_rows:
-		var file_row := top_line + r
+	for i in visible_rows:
+		var file_row := top_line + i
 		var line_text := ""
 		if file_row < lines.size():
 			line_text = String(lines[file_row]) # если файл не кончился - встравляем строку из файла
 			if line_text.length() > COLS:
 				line_text = line_text.substr(0, COLS) # обрезка текста без переноса
 				
-		var y_base := r * char_h + ascent # текущая высота сверху. Строка * высоту буквы + поправка на хвосты-шапки
+		var row_y := i * char_h
+		var y_base := row_y + ascent # текущая высота сверху. Строка * высоту буквы + поправка на хвосты-шапки
 		
 		# Посимвольный вывод + инверсия под курсором
-		for c in line_text.length():
-			var x := c * char_w
-			var ch := line_text.substr(c, 1)
+		for j in line_text.length():
+			var x := j * char_w
+			var ch := line_text.substr(j, 1)
 			
-			if file_row == cursor_row and c == cursor_col:
-				draw_rect(Rect2(x, r * char_h, char_w, char_h), cursor_bg, true)
+			if file_row == cursor_row and j == cursor_col:
+				draw_rect(Rect2(x, i * char_h, char_w, char_h), cursor_bg, true)
 				draw_string(font, Vector2(x, y_base), ch, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, cursor_fg)
 			else:
 				draw_string(font, Vector2(x, y_base), ch, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size, fg_color)
@@ -107,7 +113,7 @@ func _draw() -> void:
 		# Если идем курсором вверх-вниз и новая позиция дальше чем конец строки - ставим его после последнего символа
 		if file_row == cursor_row and cursor_col >= line_text.length() and cursor_col < COLS:
 			var x := cursor_col * char_w
-			draw_rect(Rect2(x,r * char_h, char_w, char_h), cursor_bg, true)
+			draw_rect(Rect2(x, row_y, char_w, char_h), cursor_bg, true)
 	
 	# Статус-строка, последняя снизу
 	var status_y := (ROWS - 1) * char_h
