@@ -7,7 +7,7 @@ var cursor_row: int = 0
 var cursor_col: int = 0
 var top_line: int = 0
 
-@export var font_size := 32
+var font_size := 42
 var font: Font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
 
 var char_w: float = 0.0
@@ -74,7 +74,7 @@ func _ready() -> void:
 	grab_focus()
 	resolve_font_metrics()
 	recalc_frame_size()
-	_load_file("res://data/sample.txt")
+	_load_file("res://data/tutor.ru.utf-8.txt")
 	queue_redraw()
 	
 # queue_redraw() автоматически первый раз вызовет _draw()

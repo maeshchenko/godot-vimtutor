@@ -49,4 +49,3 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 focus_mode = 2
 script = ExtResource("2_14u6n")
-font_size = 20
